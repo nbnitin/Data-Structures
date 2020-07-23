@@ -1,0 +1,95 @@
+import Foundation
+
+var convertedStr = ""
+var i = 0
+var lstChar = ""
+var matchCount = 1
+var kl = ""
+
+func checkSameAdjacent(startPoint : Int,char : String,parentStr : Array<Character>)->Int{
+    var matchedCount = 1
+    var isMatched = false
+
+    for i in startPoint ..< parentStr.count  {
+//        print(startPoint,parentStr[i],char,matchedCount,isMatched)
+
+        if ( String(parentStr[i]) == char ) {
+            matchedCount += 1
+            isMatched = true
+            continue
+        } else {
+            break
+        }
+    }
+    if (!isMatched) {
+        matchedCount = 1
+    }
+    convertedStr += char + "\(matchedCount)"
+
+    return matchedCount + 1
+}
+
+
+
+func encrypt(str : String)->String {
+    let tempStr = Array(str)
+    convertedStr = ""
+    for _ in 1 ... str.count {
+        lstChar = String(tempStr[i])
+        
+        i = i+1
+        //print(i)
+        
+//        if ( i == str.count ) {
+//            i = str.count - 1
+//        }
+        
+        if ( lstChar != kl && checkSameAdjacent(startPoint: i, char: lstChar, parentStr: tempStr) > 1 ) {
+            kl = lstChar
+        }
+    
+    }
+    return convertedStr
+}
+
+
+
+func decrypt(str : String)->String {
+    let tempStr = Array(str)
+    var j = 0
+    convertedStr = ""
+    i = 0
+    for _ in 0 ... tempStr.count-1 {
+        let incrementChar = tempStr[i]
+
+        if ( i % 2 != 0 ) {
+            if let x = Int(String(incrementChar)) {
+
+                let charNeedsToBeIncremented = tempStr[i-1]
+//                print(x,charNeedsToBeIncremented)
+                for _ in 1...x {
+
+                    convertedStr += String(charNeedsToBeIncremented)
+                }
+
+
+            }
+        }
+        i += 1
+        j += 1
+    }
+    return convertedStr
+}
+
+var str1 = "Nitin Bhatia An apple laaptopp @#$% 1234" //
+let encryptedString = encrypt(str: str1)
+let decryptedString = decrypt(str: encryptedString)
+
+print(encryptedString,"enc string")
+print(decryptedString,"dec string")
+
+
+if ( decryptedString == str1 ) {
+    print("String matched")
+}
+

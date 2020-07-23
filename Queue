@@ -1,0 +1,100 @@
+import Foundation
+
+var str = "Hello, queue"
+
+var arr : [Int]!
+
+class Queue {
+    var front : Int = Int()
+    var rear : Int = Int()
+    var size : Int = Int()
+    var capacity : Int = Int()
+    
+    init(capacity:Int) {
+        self.capacity = capacity
+        self.size = -1
+        self.front = -1
+        self.rear = -1
+        arr = [Int] (repeatElement(-1, count: capacity))
+    }
+    
+    
+    func isFull()->Bool {
+        if ( size == capacity - 1 ) {
+            return true
+        }
+        return false
+    }
+    
+    func isEmpty()->Bool {
+        if ( size == 0 ) {
+            return true
+        }
+        return false
+    }
+    
+    func peek()->Int {
+        return arr[front]
+    }
+
+    func enqueue(value : Int) {
+        print(arr)
+        if ( !isFull()  ) {
+            size += 1
+            front = 0
+            rear = (rear + 1) % capacity
+            arr[rear] = value
+        } else {
+            enqueueFront(value: value)
+        }
+   
+    }
+    
+    func enqueueFront(value : Int) {
+         if ( isFull()  ) {
+            print("i m rear 1",rear)
+           _ =  dequeue()
+            print("i m rear 1",rear)
+
+             size += 1
+             front = 0
+             rear = (rear + 1) % capacity
+            print("i m rear ee\(arr)",rear)
+
+            arr.insert(value, at: rear)
+         } else {
+            
+        }
+    
+     }
+    
+    func dequeue()->Int{
+        let item = arr[front]
+        size -= 1
+        arr.remove(at: front)
+        rear = (rear - 1) % capacity
+        print("Dequeued value, ", item,arr)
+        return item
+    }
+    
+}
+print(arr)
+let temp = Queue(capacity: 5)
+temp.enqueue(value: 10)
+temp.enqueue(value: 20)
+temp.enqueue(value: 100)
+temp.enqueue(value: 200)
+temp.enqueue(value: 1000)
+temp.enqueue(value: 2000)
+temp.enqueue(value: 10000)
+
+print(temp.isFull())
+print(arr)
+
+print("I am front element via peek",temp.peek())
+
+
+
+
+
+

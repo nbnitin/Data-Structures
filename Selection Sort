@@ -1,0 +1,70 @@
+import Foundation
+
+var str = "Hello, selection Sort"
+
+var arr = [4,2,90,60,40,0]
+var swapping = false
+
+//with temp varaibles
+func sortDesc(){
+    var found = false
+    for i in 0 ..< arr.count {
+        var min = i
+        found = false
+        for j in i ..< arr.count {
+           // print("round \(i)",arr)
+            if ( arr[j] > arr[min] ) {
+                min = j
+                found = true
+            }
+        }
+        if ( found ) {
+           // print("min",min)
+            let x = arr[i]
+            arr[i] = arr[min]
+            arr[min] = x
+            //print(arr[min],arr)
+            found = false
+        }
+        
+
+    }
+    
+    print(arr)
+}
+
+
+func sortAsc(){
+var found = false
+for i in 0 ..< arr.count {
+    var min = i
+    found = false
+    for j in i ..< arr.count {
+       // print("round \(i)",arr)
+        if ( arr[j] < arr[min] ) {
+            min = j
+            found = true
+        }
+    }
+    if ( found ) {
+        //print("min",min)
+        let x = arr[i]
+        arr[i] = arr[min]
+        arr[min] = x
+       // print(arr[min],arr)
+        found = false
+    }
+    
+
+}
+    
+    
+    print(arr)
+}
+
+
+
+sortDesc()
+sortAsc()
+
+

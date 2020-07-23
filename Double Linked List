@@ -1,0 +1,185 @@
+import Foundation
+
+var str = "Hello, double linked list"
+
+class Node {
+    var next : Node?
+    var prev : Node?
+    var value : Int
+    
+    init( value:Int ){
+        self.value = value
+    }
+}
+
+class DoubleLinkedList {
+    var head : Node?
+    
+    //it adds at the end of list
+    func appendNode(value : Int){
+        let newNode = Node(value: value)
+        var last = head
+        if ( head == nil ) {
+            head = newNode
+        } else {
+            while ( last?.next != nil ) {
+                last = last?.next
+            }
+            last?.next = newNode
+            newNode.prev = last
+        }
+    }
+    
+    //It adds at front of list
+    func addNode(value : Int) {
+        let newNode = Node(value: value)
+        let currentHead = head
+        if ( head == nil ) {
+                head = newNode
+        } else {
+            newNode.next = currentHead
+            head = newNode
+            currentHead?.prev = head
+        }
+    }
+    
+    func addAtGivenPosition(pos:Int,newValue : Int) {
+        var nodeAtPosition : Node? = head
+        let newNode = Node(value: newValue)
+        
+        for _ in 0 ..< pos  {
+            nodeAtPosition = nodeAtPosition?.next
+        }
+        
+//        //incase newNodeAtPosition not is a head
+        if ( nodeAtPosition?.prev != nil) {
+            newNode.prev = nodeAtPosition?.prev
+            nodeAtPosition?.prev?.next = newNode
+            newNode.next = nodeAtPosition
+            nodeAtPosition?.prev = newNode
+        } else {
+            //if it is head
+            newNode.prev = nil
+            newNode.next = nodeAtPosition
+            nodeAtPosition?.prev = newNode
+            head = newNode
+        }
+    }
+    
+    func searchForNumber(valueToBeSearched : Int) {
+        var currentNode = head
+        var pos = 0
+        var flag = false
+        
+        while currentNode != nil {
+            if ( currentNode?.value == valueToBeSearched ) {
+                flag = true
+                break
+            }
+            pos += 1
+            currentNode = currentNode?.next
+        }
+        
+        if ( flag ) {
+            print("\n\(valueToBeSearched) item found at \(pos + 1)")
+        } else {
+            print("\n\(valueToBeSearched) item not found")
+        }
+    }
+    
+    func getAll(){
+        var ele = head
+        var lastNode = head
+        while ( ele != nil ) {
+            print("printing forwarding",ele?.value)
+            lastNode = ele
+            ele = ele?.next
+        }
+        ele = lastNode
+        print("\n")
+        while ( ele != nil ) {
+            print("printing previously",ele?.value)
+            ele = ele?.prev
+        }
+    }
+    
+    func mergeSort(leftArray:Node?,rightArray:Node?)->Node? {
+      
+        var result = head
+        
+        if ( leftArray == nil ) {
+            return rightArray
+        } else if ( rightArray == nil ) {
+            return leftArray
+        }
+        
+        // Pick the smaller value
+        if (leftArray!.value < rightArray!.value) {
+            result = leftArray
+            result?.next = mergeSort(leftArray:leftArray?.next, rightArray:rightArray)
+            result?.next?.prev = leftArray
+            result?.prev = nil
+        } else {
+            result = rightArray
+            result?.next = mergeSort(leftArray:leftArray, rightArray:rightArray?.next)
+            result?.next?.prev = rightArray
+            result?.prev = nil
+        }
+        return result
+        
+    }
+    
+    
+    func sort( node: Node?)->Node? {
+        var h = node
+        
+        if (h == nil || h?.next == nil) {
+                  return h
+        }
+        let second = split(head: h)
+        var nextOfMiddle = second?.next
+        second?.next = nil
+        // Recur for left and right halves
+        h = sort(node:h)
+        nextOfMiddle = sort(node:nextOfMiddle)
+        // Merge the two sorted halves
+        return mergeSort(leftArray: h, rightArray: nextOfMiddle)
+    }
+    
+    func split(head:Node?)->Node? {
+        var fast = head
+        var slow = head
+        
+        while (fast?.next != nil && fast?.next?.next != nil) {
+            fast = fast?.next?.next
+            slow = slow?.next
+        }
+        return slow
+    }
+    
+    func deleteAll(){
+        head = nil
+    }
+    
+}
+
+var temp = DoubleLinkedList()
+temp.addNode(value: 5)
+temp.appendNode(value: 4)
+temp.appendNode(value: 2)
+temp.appendNode(value: 1)
+//temp.getAll()
+
+//print("after adding")
+//temp.getAll()
+temp.addAtGivenPosition(pos: 3, newValue: 3)
+//print("after inserting at given position")
+temp.getAll()
+temp.head = temp.sort(node: temp.head)
+
+
+temp.getAll()
+
+//temp.deleteAll()
+//temp.getAll()
+

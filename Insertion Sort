@@ -1,0 +1,49 @@
+import Foundation
+
+var str = "Hello, insertion Sort"
+
+var arr = [4,2,90,60,40,0]
+var swapping = false
+
+//with temp varaibles
+func sortDesc(){
+    
+    for i in 1 ..< arr.count  {
+        let key = arr[i]
+        var j = i - 1
+        while ( j >= 0 && arr[j] < key ) {
+            
+
+            arr[j + 1] = arr[j]
+//            print("desc key \(j) \(arr)",key)
+            j -= 1
+        }
+        arr[j + 1] = key
+    }
+    
+    print(arr)
+}
+
+
+func sortAsc(){
+//    arr = [4,2,90,60,40,0]
+    for i in 1 ..< arr.count {
+        let key = arr[i]
+        var j = i - 1
+        while ( j >= 0 && arr[j] > key ) {
+            arr[j + 1] = arr[j]
+            j -= 1
+        }
+        arr[j + 1] = key
+    }
+    
+    
+    print(arr)
+}
+
+
+
+sortDesc()
+sortAsc()
+
+

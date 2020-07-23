@@ -1,0 +1,63 @@
+import Foundation
+
+var str = "Hello, merge Sort"
+
+var arr = [4,2,90,60,40,0]
+
+func mergeSortDesc(a:[Int],b:[Int])->[Int] {
+    
+    
+    var left = 0
+    var right = 0
+    var orderdedArray = [Int]()
+    
+    while left < a.count && right < b.count {
+        let leftElement = a[left]
+        let rightElement = b[right]
+        
+//        print("left ele \(leftElement)")
+//        print("right ele \(rightElement)")
+        
+        if ( leftElement > rightElement ) {
+            orderdedArray.append(leftElement)
+            left+=1
+        } else if (rightElement > leftElement) {
+            orderdedArray.append(rightElement)
+            right+=1
+        } else {
+            orderdedArray.append(leftElement)
+            orderdedArray.append(rightElement)
+            left += 1
+            right += 1
+        }
+    }
+    
+    while left < a.count {
+        orderdedArray.append(a[left])
+        left+=1
+    }
+    
+    while right < b.count {
+        orderdedArray.append(b[right])
+        right+=1
+    }
+    
+    return orderdedArray
+    
+}
+
+
+
+func sortDesc(arr : [Int])->[Int]{
+    
+    
+    if ( arr.count > 1 ) {
+        
+    
+    let mid = arr.count/2
+    let left = sortDesc(arr: Array(arr[0..<mid]))
+    let right = sortDesc(arr: Array(arr[mid..<arr.count]))
+    return mergeSortDesc(a:left,b:right)
+    }
+    return arr
+}
